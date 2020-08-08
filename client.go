@@ -82,7 +82,7 @@ type Client struct {
 }
 
 // Terms returns a list of terms for which course data is available.
-func (c *Client) Terms() ([]Term, error) {
+func (c *Client) Terms() ([]*Term, error) {
 	req, err := http.NewRequest("GET", baseURL+"terms", nil)
 	if err != nil {
 		return nil, err
@@ -97,7 +97,7 @@ func (c *Client) Terms() ([]Term, error) {
 	}
 	defer resp.Body.Close()
 
-	var terms []Term
+	var terms []*Term
 	if err := json.NewDecoder(resp.Body).Decode(&terms); err != nil {
 		return nil, err
 	}
@@ -105,7 +105,7 @@ func (c *Client) Terms() ([]Term, error) {
 }
 
 // Schools lists all schools at Northwestern University.
-func (c *Client) Schools() ([]School, error) {
+func (c *Client) Schools() ([]*School, error) {
 	req, err := http.NewRequest("GET", baseURL+"schools", nil)
 	if err != nil {
 		return nil, err
@@ -120,7 +120,7 @@ func (c *Client) Schools() ([]School, error) {
 	}
 	defer resp.Body.Close()
 
-	var schools []School
+	var schools []*School
 	if err := json.NewDecoder(resp.Body).Decode(&schools); err != nil {
 		return nil, err
 	}
@@ -136,7 +136,7 @@ type SubjectsConfig struct {
 // Subjects returns a list of subjects.
 //
 // You can filter by `term` and `school` - filtering by `term` is recommended because subjects have changed over the years.
-func (c *Client) Subjects(config SubjectsConfig) ([]Subject, error) {
+func (c *Client) Subjects(config SubjectsConfig) ([]*Subject, error) {
 	req, err := http.NewRequest("GET", baseURL+"subjects", nil)
 	if err != nil {
 		return nil, err
@@ -157,7 +157,7 @@ func (c *Client) Subjects(config SubjectsConfig) ([]Subject, error) {
 	}
 	defer resp.Body.Close()
 
-	var subjects []Subject
+	var subjects []*Subject
 	if err := json.NewDecoder(resp.Body).Decode(&subjects); err != nil {
 		return nil, err
 	}
@@ -209,7 +209,7 @@ type CoursesConfig struct {
 // - `term`, `room`
 // You can include additional parameters to narrow down your search.
 // The `start_time`, `end_time`, `start_date`, `end_date`, and `seats` expect exact values by default. You can append `__lt`, `__gt`, `__lte`, or `__gte` to each of them to filter by values that are less than or greater than and/or equal to the value you specify.
-func (c *Client) Courses(config CoursesConfig) ([]Course, error) {
+func (c *Client) Courses(config CoursesConfig) ([]*Course, error) {
 	req, err := http.NewRequest("GET", baseURL+"courses", nil)
 	if err != nil {
 		return nil, err
@@ -272,7 +272,7 @@ func (c *Client) Courses(config CoursesConfig) ([]Course, error) {
 	}
 	defer resp.Body.Close()
 
-	var courses []Course
+	var courses []*Course
 	if err := json.NewDecoder(resp.Body).Decode(&courses); err != nil {
 		return nil, err
 	}
@@ -282,7 +282,7 @@ func (c *Client) Courses(config CoursesConfig) ([]Course, error) {
 // Instructors returns a list of instructors.
 //
 // Must include the `subject` parameter.
-func (c *Client) Instructors(subject string) ([]Instructor, error) {
+func (c *Client) Instructors(subject string) ([]*Instructor, error) {
 	req, err := http.NewRequest("GET", baseURL+"instructors", nil)
 	if err != nil {
 		return nil, err
@@ -298,7 +298,7 @@ func (c *Client) Instructors(subject string) ([]Instructor, error) {
 	}
 	defer resp.Body.Close()
 
-	var instructors []Instructor
+	var instructors []*Instructor
 	if err := json.NewDecoder(resp.Body).Decode(&instructors); err != nil {
 		return nil, err
 	}
@@ -316,7 +316,7 @@ type BuildingsConfig struct {
 //
 // When queried without parameters, returns all buildings. Most buildings have latitude and longitude coordinates.
 // You can get information about particular buildings by including one or more `id` parameters, or you can filter using `lon` and `lat` with the `__lt`, `__gt`, `__lte`, and `__gte` suffixes. The Northwestern maps link may be null.
-func (c *Client) Buildings(config BuildingsConfig) ([]Building, error) {
+func (c *Client) Buildings(config BuildingsConfig) ([]*Building, error) {
 	req, err := http.NewRequest("GET", baseURL+"buildings", nil)
 	if err != nil {
 		return nil, err
@@ -340,7 +340,7 @@ func (c *Client) Buildings(config BuildingsConfig) ([]Building, error) {
 	}
 	defer resp.Body.Close()
 
-	var buildings []Building
+	var buildings []*Building
 	if err := json.NewDecoder(resp.Body).Decode(&buildings); err != nil {
 		return nil, err
 	}
@@ -356,7 +356,7 @@ type RoomsConfig struct {
 // Rooms returns a list of rooms.
 //
 // You must include a building id using the `building` parameter, or you can get details about specific rooms by including one or more `id` parameters.
-func (c *Client) Rooms(config RoomsConfig) ([]Room, error) {
+func (c *Client) Rooms(config RoomsConfig) ([]*Room, error) {
 	req, err := http.NewRequest("GET", baseURL+"rooms", nil)
 	if err != nil {
 		return nil, err
@@ -377,7 +377,7 @@ func (c *Client) Rooms(config RoomsConfig) ([]Room, error) {
 	}
 	defer resp.Body.Close()
 
-	var rooms []Room
+	var rooms []*Room
 	if err := json.NewDecoder(resp.Body).Decode(&rooms); err != nil {
 		return nil, err
 	}
